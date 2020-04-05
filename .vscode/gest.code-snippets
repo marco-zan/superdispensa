@@ -1,0 +1,133 @@
+{
+	// Place your Gest workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"Route with auth": {
+		"prefix": "new_route_auth",
+		"body": [
+			"{",
+			"\tpath: \"$1\", //q: $2",
+			"\tmethod: \"$3\",",
+			"\thandler: [",
+			"\t\tchecksAuth.checkAuthHeader,",
+			"\t\taccessRoutes.checkUser,",
+			"\t\t$4",
+			"\t]",
+			"}, $0"
+		]
+	},
+	"Column": {
+		"prefix": "column",
+		"body": [
+			"@Column(\"$1\", $2)",
+			"$3!: $4;",
+			"$0"
+		]
+	},
+	"middleware db e query": {
+		"prefix": "middleware_db_query",
+		"body": [
+			"export const $1 = async (",
+			"\treq: Request,",
+			"\tres: Response,",
+			"\tnext: NextFunction",
+			") => {",
+			"\tlet db = await bmDatabaseService.getInstance();",
+			"\tlet query = getQuery(req), r;",
+			"",
+			"\t//todo:write middleware $1",
+			"\t$2",
+			"\tres.json({ ok: r ? \"yes\":\"no\", r: r})",
+			"}",
+			"$0"
+		]
+	},
+	"middleware query": {
+		"prefix": "middleware_query",
+		"body": [
+			"export const $1 = async (",
+			"\treq: Request,",
+			"\tres: Response,",
+			"\tnext: NextFunction",
+			") => {",
+			"\tlet query = getQuery(req), r;",
+			"",
+			"\t//todo:write middleware $1",
+			"\t$2",
+			"\tres.json({ ok: r ? \"yes\":\"no\", r: r})",
+			"}",
+			"$0"
+		]
+	},
+	"middleware vuoto": {
+		"prefix": "middleware_empty",
+		"body": [
+			"export const $1 = async (",
+			"\treq: Request,",
+			"\tres: Response,",
+			"\tnext: NextFunction",
+			") => {",
+			"\tlet r;",
+			"",
+			"\t//todo:write middleware $1",
+			"\t$2",
+			"\tres.json({ ok: r ? \"yes\":\"no\", r: r})",
+			"}",
+			"$0"
+		]
+	},
+
+	"new entity": {
+		"prefix": "entity_new",
+		"body": [
+			"import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany } from \"typeorm\";",
+			"",
+			"@Entity(\"$1\")",
+			"export class $2 extends BaseEntity{",
+			"",
+			"\t@PrimaryGeneratedColumn()",
+			"\t$3: number | undefined;",
+			"",
+			"\t$0",
+			"",
+			"\tconstructor($3?: number){",
+			"\t\tsuper();",
+			"\t\tthis.$3 = $3;",
+			"\t}",
+			"}",
+			"",
+			"export default $2;"
+		]
+	},
+
+	"One to many": {
+		"prefix": "oneToMany",
+		"body": [
+			"@OneToMany(type => $1, $2 => $2.$3)",
+			"$2 !: $1[];",
+			"$0"
+		]	
+	},
+	"Many to one": {
+		"prefix": "manyToOne",
+		"body": [
+			"@ManyToOne(type => $1, $2 => $2.$3)",
+			"$2 !: $1;",
+			"$0"
+		]	
+	}
+}

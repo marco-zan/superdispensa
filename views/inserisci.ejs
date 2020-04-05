@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('head'); %>
+    <script src="js/scan.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <%- include('menu'); %>
+    </div>
+
+    <script type="text/javascript">
+        function processBarcode(b){
+            var d = document.getElementById("barcode");
+            d.value = b;
+        }
+    </script>
+
+    <div id="main">
+        <form >
+            <form class="pure-form" action="inserisci" method="post">
+                <fieldset class="pure-group">
+                    <input type="number" class="pure-input-3-5" name='barcode' id='barcode' placeholder="Codice a barre">
+                    <input type="button" class="pure-input-1-5" value="Scannerizza" onclick='getScan()'>
+                    <input type="button" class="pure-input-1-5" value="Invia">
+                </fieldset>
+            
+                <fieldset class="pure-group">
+                    <input type="text" class="pure-input-1-2" placeholder="A title">
+                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
+                </fieldset>
+            
+                <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Sign in</button>
+            </form>
+        </form>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+
+</body>
+</html>
