@@ -2,3 +2,85 @@ div.c {
     display: grid;
     grid-template-columns: 20% auto;
 }
+#prodottoform, #prodottoscelto, #scadenzaform {
+    display: none;
+}
+
+.successNotify {
+    background: #92ff7b;
+    text-align: center;
+    display: flex;
+    color: #2b2b2b;
+    font-size: 1.2em;
+    padding: 10px;
+    border: 1px solid #00b000;
+}
+.menuLinkHeader h2 {
+    display: none;
+}
+.inscad thead{
+    background: #f9ca24 !important;
+}
+  
+.inscad tbody {
+    background: #f6e58d;
+    
+}
+  
+.scaduti thead{
+    background: #eb4d4b !important;
+}
+  
+.scaduti tbody {
+    background: #ffe0e0;
+}
+tbody {
+    color: #0f0f0f;
+}
+@media (max-width: 48em) {
+    fieldset {
+        display: flex;
+        flex-direction: column;
+    }
+    fieldset input{
+        padding: 8px;
+        font-size: 1.3em;
+        width: 100%;
+        box-sizing: border-box;
+        border-top: 1px dashed grey;
+        border-left: 1px dashed grey;
+        border-right: 1px dashed grey;
+        border-bottom: 0;
+    }
+    fieldset input:last-child {
+        border-bottom: 1px dashed grey;
+    }
+    .menuLinkHeader {
+        position: fixed;
+        display: flex;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        height: auto;
+    }
+    .menuLinkHeader h2 {
+        padding: 0;
+        display: block;
+        background: #1f8dd6;
+        width: calc(100% - 2em);
+        margin: 0;
+        line-height: 1.8em;
+        color:white;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .menuLinkHeader.active {
+        left: 150px;
+        transition: 0.3s;
+    }
+    #main {
+        margin-top: 60px;
+        transition: 0.25s;
+    }
+}

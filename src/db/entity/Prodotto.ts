@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToOne, Connection } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToOne, Connection, OneToMany } from "typeorm";
 import { Barcode } from "./Barcode";
 
 @Entity("prodotto")
@@ -10,10 +10,10 @@ export class Prodotto extends BaseEntity{
     @Column("varchar", { length: 30 })
     nome!: string | undefined;
 
-    @ManyToOne(type => Barcode, barcode => barcode.code)
+    @OneToMany(type => Barcode, barcode => barcode.code)
     barcode !: Barcode[];
 
-    scadenza !: string;
+    // scadenza !: string;
 
     constructor(id?: number, nome?: string){
         super();
@@ -22,10 +22,20 @@ export class Prodotto extends BaseEntity{
     }
 
     public async getProdotto(conn: Connection, barcode: String): Promise<Prodotto | undefined> {
-        return conn.getRepository(Prodotto).findOne({
-            where: { barcode: barcode }, 
-            relations: ['barcode']
-        })
+        return await conn.getRepository(Prodotto)
+            .createQueryBuilder("p")
+            .leftJoinAndSelect("barcode", "b", "b.prodottoId = p.id")
+            .where("b.code = :barcode ", { barcode: barcode })
+            .getOne()
+        
+        // findOne({
+        //     where: { barcode: [ barcode ] }, 
+        //     relations: ['barcode']
+        // })
+    }
+
+    public async insertThis(conn: Connection) {
+        return await conn.getRepository(Prodotto).insert(this);
     }
 }
 
