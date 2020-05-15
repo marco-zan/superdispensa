@@ -13,6 +13,9 @@ export class Vero extends BaseEntity{
     @Column("int")
     quantita!: number;
 
+    @Column("smallint", { default: 0 })// 0: da mangiare, 1: mangiato
+    stato!: number | undefined;
+
     @ManyToOne(type => Prodotto, prodotto => prodotto.id)
     prodotto !: Prodotto;
 
@@ -25,6 +28,7 @@ export class Vero extends BaseEntity{
         return await conn.getRepository(Vero)
             .find({
                 relations: ['prodotto'],
+                where: { stato: 0 },
                 order: { scadenza: "ASC" }
             })
     }
@@ -32,6 +36,11 @@ export class Vero extends BaseEntity{
     public async insertThis(conn: Connection): Promise<any> {
         return await conn.getRepository(Vero)
             .save(this)
+    }
+
+    public async updateStato(conn: Connection, id: number, stato: number): Promise<any> {
+        return await conn.getRepository(Vero)
+            .update({ id: id }, { stato: stato })
     }
 }
 

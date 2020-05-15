@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('head'); %>
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <%- include('menulink'); %>
+
+    <div id="menu">
+        <%- include('menu'); %>
+    </div>
+
+    <div id="main">
+        <div class="content">
+            <h1>Ultimi mangiati</h1>
+            <table class="pure-table">
+                <thead>
+                    <th>Nome</th>
+                    <th>Mangiato</th>
+                </thead>
+                <tbody>
+                    <% for (var p in umangiati) { %>
+                        <tr>
+                            <td><%= umangiati[p].nome %></td>
+                            <td class='mangDate'><%= umangiati[p].ultimo_mangiato %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    const stringToDate = (dateString, separator, r = true) => { //r = yyyy-mm-dd, not r = dd-mm-yyyy
+        let dA = dateString.split(separator)
+        if(dA.length !== 3)
+            throw new Error("Impossibile parsare data");
+
+        return new Date(`${dA[ r?0:2 ]}-${dA[1]}-${dA[ r?2:0 ]}T00:00:00`);
+    }
+
+    const outGiorni = async (data) => {
+        let d = stringToDate(data, "-"),
+            now = new Date(),
+            start = new Date(),
+            diff = now - d;
+        
+        start.setHours(0,0,0,0);
+        diff -= now - start;
+        diff -= diff%86400000;
+        diff = diff/86400000;
+        if(diff == 0)
+            return "Mangiato oggi";
+        else if(diff <= 1)
+            return `Mangiato ${diff} giorno fa`
+        else if(diff > 1)
+            return `Mangiato ${diff} giorni fa`
+        else return data;
+    }
+
+    [...$(".mangDate")].forEach((e) => {
+        outGiorni(e.innerText).then((x) => e.innerText = x);
+    })
+</script>
+<script src="js/ui.js"></script>
+</body>
+</html>

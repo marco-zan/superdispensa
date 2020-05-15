@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\..\\..\\..\\xampp\\htdocs\\superdispensa-static"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

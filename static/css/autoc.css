@@ -1,0 +1,142 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+
+ :root {
+    --primary: #1f8dd6;
+    --secondary: #3b94cf;
+}
+
+#autoComplete_wrapper {
+    position: relative;
+    display: inline-block
+}
+
+#autoComplete {
+    position: relative;
+    height: 2.1rem;
+    width: 100%;
+    font-size: 1.2rem;
+    outline: 0;
+    border: .05rem dashed var(--primary);
+    caret-color: var(--primary);
+    color: rgb(126, 119, 119);
+    transition: all .4s ease;
+    -webkit-transition: all -webkit-transform .4s ease;
+    text-overflow: ellipsis;
+}
+
+#autoComplete::placeholder {
+    color: rgba(121, 123, 139, 0.82);
+    transition: all .3s ease
+}
+
+#autoComplete_list {
+    position: fixed;
+    z-index: 1000;
+    padding: 0;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 18rem;
+    transition: all .1s ease-in-out;
+    -webkit-transition: all -webkit-transform .1s ease
+}
+
+.autoComplete_result {
+    margin: .15rem auto;
+    padding: .6rem;
+    max-width: 280px;
+    border: .05rem dashed #e3e3e3;
+    list-style: none;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #7b7b7b;
+    transition: all .1s ease-in-out;
+    background-color: #fff
+}
+
+.autoComplete_result::selection {
+    color: rgba(#fff, 0);
+    background-color: rgba(#fff, 0)
+}
+
+.autoComplete_result:last-child {
+    border-radius: 0 0 1rem 1rem
+}
+
+.autoComplete_result:hover {
+    cursor: pointer;
+    background-color: rgba(255, 248, 248, .9);
+    border-left: 2px solid var(--secondary);
+    border-right: 2px solid var(--secondary);
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent
+}
+
+.autoComplete_result:focus {
+    outline: 0;
+    background-color: rgba(255, 248, 248, .9);
+    border-left: 2px solid var(--secondary);
+    border-right: 2px solid var(--secondary);
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent
+}
+
+.autoComplete_highlighted {
+    opacity: 1;
+    color: var(--secondary);
+    font-weight: 700
+}
+
+.autoComplete_highlighted::selection {
+    color: rgba(#fff, 0);
+    background-color: rgba(#fff, 0)
+}
+
+.autoComplete_selected {
+    cursor: pointer;
+    background-color: rgba(255, 248, 248, .9);
+    border-left: 2px solid var(--secondary);
+    border-right: 2px solid var(--secondary);
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent
+}
+
+@media only screen and (max-width:600px) {
+    #autoComplete {
+        width: 100%;
+    }
+    .autoComplete_result:first-child {
+        border-radius: 1rem 1rem 0 0
+    }
+    .autoComplete_result:last-child {
+        border-radius: 0 0 1rem 1rem
+    }
+    .autoComplete_result:only-child {
+        border-radius: 1rem
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    #autoComplete {
+        border-width: 1px
+    }
+}
+
+@-moz-document url-prefix() {
+    #autoComplete {
+        border-width: 1px;
+        background-size: 1.2rem;
+        background-origin: border-box;
+        background-position: center
+    }
+}
+
+
+/*# sourceMappingURL=/sm/2bb3dcf548ec37c7de5c930474e8db20da4091fb846c9dd2fcdf9eac37ea959e.map */

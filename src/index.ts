@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 }));      
 app.set('view engine', 'ejs');
 app.use(routes);
-app.use(express.static(__dirname + "\\..\\static"));
+app.use(express.static(__dirname + "/../static"));
 
 console.log("Running...");
 

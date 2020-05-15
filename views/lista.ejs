@@ -14,6 +14,11 @@
     </div>
 
     <div id="main">
+
+        <div class='errorNotify'>
+            Errore, impossibile salvare modifiche
+        </div>
+
         <div class="content">
 
             <h1>Lista scadenze</h1>
@@ -31,7 +36,7 @@
                             <tr>
                                 <td><%= scaduti[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scaduti[p].scadenza %></td>
-                                <td><button class="pure-button" data-id="<%= scaduti[p].id %>">Mangiato</button></td>
+                                <td><button class="pure-button mangiatoBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >Mangiato</button></td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -51,7 +56,7 @@
                             <tr>
                                 <td><%= inScadenza[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= inScadenza[p].scadenza %></td>
-                                <td><button class="pure-button" data-id="<%= inScadenza[p].id %>">Mangiato</button></td>
+                                <td><button class="pure-button mangiatoBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >Mangiato</button></td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -71,7 +76,7 @@
                             <tr>
                                 <td><%= scadenze[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scadenze[p].scadenza %></td>
-                                <td><button class="pure-button" data-id="<%= scadenze[p].id %>">Mangiato</button></td>
+                                <td><button class="pure-button mangiatoBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >Mangiato</button></td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -110,6 +115,39 @@
 
     [...$(".scadDate")].forEach((e) => {
         outGiorni(e.innerText).then((x) => e.innerText = x);
+    })
+
+    $(".mangiatoBtn").click( e => {
+        id = e.target.getAttribute("data-idprodotto");
+        idVero = e.target.getAttribute("data-id");
+        
+        $.post("/prodotto/"+ id +"/mangiato", {
+            idVeroMangiato: idVero
+        }, (data, status, xht) => {
+            console.log("asdasj")
+            if(data.result === true || stats !== 200)
+                $(e.target).parent().parent().hide(200)
+            else{
+                $(".errorNotify").animate({
+                        top: 55
+                    })
+                setTimeout(function() {
+                    $(".errorNotify").animate({
+                        top: -55
+                    })
+                }, 3000);
+            }
+        })
+        .fail(e => {
+            $(".errorNotify").animate({
+                    top: 55
+                })
+            setTimeout(function() {
+                $(".errorNotify").animate({
+                    top: -55
+                })
+            }, 3000);
+        })
     })
     
 </script>

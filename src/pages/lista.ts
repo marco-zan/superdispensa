@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Prodotto } from "../db/entity/Prodotto";
 import { Vero } from "../db/entity/Vero";
 import { Dbservice } from "../db/Dbservice";
-import { stringToDate } from "../utils/date";
+import { stringToDate, dateToString } from "../utils/date";
 
 interface ProdottoVero {
     prodotto: Prodotto,
@@ -30,7 +30,7 @@ export const lista = async (req: Request, res: Response) => {
             let date: Date = stringToDate(e.scadenza, "-")
             let now: Date = new Date();
             let diff = date.getTime() - now.getTime();
-            console.log(diff)
+            // console.log(e.prodotto)
             if(diff < 0)
                 scaduti.push(e)
             else if (diff < 345600000)
@@ -46,4 +46,24 @@ export const lista = async (req: Request, res: Response) => {
         inScadenza: inScadenza,
         scadenze: scadenze
     })
+}
+
+export const mangiato = async (req: Request, res: Response) => {
+    let q = req.body;
+    console.log(q.idVeroMangiato, req.params)
+
+    let statoVeroCambiato = await new Vero().updateStato(
+        (await Dbservice.getInstance()).getConnection(),
+        parseInt(q.idVeroMangiato),
+        1
+    ); 
+
+    //setto il ultimoMangiato
+    let ultimoMangiato = await new Prodotto().setMangiato(
+        (await Dbservice.getInstance()).getConnection(),
+        parseInt(req.params.id),
+        dateToString(new Date())
+    );
+
+    res.json({ result : ( !!statoVeroCambiato && !!ultimoMangiato ) })
 }
