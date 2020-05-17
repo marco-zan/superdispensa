@@ -48,22 +48,48 @@ export const lista = async (req: Request, res: Response) => {
     })
 }
 
-export const mangiato = async (req: Request, res: Response) => {
+export const mangiatoTt = async (req: Request, res: Response) => {
     let q = req.body;
     console.log(q.idVeroMangiato, req.params)
-
-    let statoVeroCambiato = await new Vero().updateStato(
+    let ultimoMangiato,
+    statoVeroCambiato = await new Vero().updateQuantityToZero(
         (await Dbservice.getInstance()).getConnection(),
-        parseInt(q.idVeroMangiato),
-        1
+        parseInt(q.idVeroMangiato)
     ); 
 
+    console.log(statoVeroCambiato);
+
     //setto il ultimoMangiato
-    let ultimoMangiato = await new Prodotto().setMangiato(
+    ultimoMangiato = await new Prodotto().setMangiato(
         (await Dbservice.getInstance()).getConnection(),
         parseInt(req.params.id),
         dateToString(new Date())
     );
 
     res.json({ result : ( !!statoVeroCambiato && !!ultimoMangiato ) })
+}
+
+export const mangiato = async (req: Request, res: Response) => {
+    let q = req.body;
+    console.log(q.idVeroMangiato, req.params)
+    let ultimoMangiato,
+    statoVeroCambiato = await new Vero().updateQuantity(
+        (await Dbservice.getInstance()).getConnection(),
+        parseInt(q.idVeroMangiato),
+        1
+    ); 
+
+    console.log(statoVeroCambiato);
+
+    if(statoVeroCambiato == 0)
+    //setto il ultimoMangiato
+        ultimoMangiato = await new Prodotto().setMangiato(
+            (await Dbservice.getInstance()).getConnection(),
+            parseInt(req.params.id),
+            dateToString(new Date())
+        );
+    else
+        ultimoMangiato = true
+
+    res.json({ result : ( !!statoVeroCambiato && !!ultimoMangiato ), nQuantita: statoVeroCambiato })
 }

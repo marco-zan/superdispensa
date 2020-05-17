@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { lista, mangiato } from "./lista";
+import { lista, mangiato, mangiatoTt } from "./lista";
 import { inserisciGet, inserisciPost, getByBarcode, getAll } from "./inserisci";
 import { listaUMangiati } from "./ultimiMangiati"
 
@@ -12,6 +12,7 @@ routes.get("/listaUltimiMangiati", listaUMangiati);
 routes.post("/inserisci", inserisciPost);
 routes.post("/prodotto/:id", getByBarcode);
 routes.post("/prodotto/:id/mangiato", mangiato);
+routes.post("/prodotto/:id/mangiato/tt", mangiatoTt);
 
 routes.get("/", (req, res) => res.redirect("lista"));
 

@@ -5,6 +5,12 @@ export const addDays = (date: Date, days: number) => {
     return date;
 }
 
+export const remDays = (date: Date, days: number) => {
+    var date = new Date(date.valueOf());
+    date.setDate(date.getDate() - days);
+    return date;
+}
+
 export const dateToString = (data: Date) => {
     let d = data.getDate()
     let m = data.getMonth() + 1

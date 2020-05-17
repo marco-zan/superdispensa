@@ -1,3 +1,7 @@
+.pure-table th, .pure-table td {
+    padding: .2em .4em !important;
+}
+
 div.c {
     display: grid;
     grid-template-columns: 20% auto;
@@ -105,8 +109,8 @@ ul#trovati {
         text-align: center;
     }
     .menuLinkHeader.active {
-        left: 150px;
-        transition: 0.3s;
+        left: 200px;
+        transition: all 0.3s ease-out;
     }
     #main {
         margin-top: 60px;

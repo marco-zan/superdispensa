@@ -1,15 +1,18 @@
 
+Necessari:
+ ✔ se premi mangiato, li mangia tutti @done (20-05-17 02:22)
+ ☐ conferma per mangiato
+ ✔ numero per mangiato @done (20-05-17 02:22)
+ ☐ backup database
 
-inserimento multiplo stesso prodotto
+Comodi / Utili:
+ ☐ inserimento multiplo stesso prodotto
+ ✔ Scadenze fino ad un mese, non tutte @done (20-05-17 02:22)
+ ☐ Lista prodotti con ricerca
 
-se premi mangiato, li mangia tutti
-conferma per mangiato
-numero per mangiato
+Belli:
+ ☐ lista di roba per il pranzo in modo che puoi confermare e non devi star li
 
-lista di roba per il pranzo in modo che puoi confermare e non devi star li
-
-backup database
-
-
-tipo di prodotto
-pezzi/confezione
+Next level:
+ ☐ tipo di prodotto (cibo/roba per il bagno)
+ ☐ pezzi/confezione

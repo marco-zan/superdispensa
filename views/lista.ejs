@@ -29,13 +29,15 @@
                     <thead>
                         <th>Nome</th>
                         <th>Scadenza</th>
-                        <th><!-- Mangiato --></th>
+                        <th>Q</th>
+                        <th>Mangiato</th>
                     </thead>
                     <tbody>
                         <% for (var p in scaduti) { %>
                             <tr>
                                 <td><%= scaduti[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scaduti[p].scadenza %></td>
+                                <td class='quantTd'><%= scaduti[p].quantita %></td>
                                 <td><button class="pure-button mangiatoBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >Mangiato</button></td>
                             </tr>
                         <% } %>
@@ -49,13 +51,15 @@
                     <thead>
                         <th>Nome</th>
                         <th>Scadenza</th>
-                        <th><!-- Mangiato --></th>
+                        <th>Q</th>
+                        <th>Mangiato</th>
                     </thead>
                     <tbody>
                         <% for (var p in inScadenza) { %>
                             <tr>
                                 <td><%= inScadenza[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= inScadenza[p].scadenza %></td>
+                                <td class='quantTd'><%= inScadenza[p].quantita %></td>
                                 <td><button class="pure-button mangiatoBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >Mangiato</button></td>
                             </tr>
                         <% } %>
@@ -69,14 +73,19 @@
                     <thead>
                         <th>Nome</th>
                         <th>Scadenza</th>
-                        <th><!-- Mangiato --></th>
+                        <th>Q</th>
+                        <th>Mangiato</th>
                     </thead>
                     <tbody>
                         <% for (var p in scadenze) { %>
                             <tr>
                                 <td><%= scadenze[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scadenze[p].scadenza %></td>
-                                <td><button class="pure-button mangiatoBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >Mangiato</button></td>
+                                <td class='quantTd'><%= scadenze[p].quantita %></td>
+                                <td>
+                                    <button class="pure-button mangiatoBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >U</button>
+                                    <button class="pure-button mangiatoTBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >T</button>
+                                </td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -100,6 +109,8 @@
             now = new Date(),
             start = new Date(),
             diff = now - d;
+
+        let nomeGiorni = "G"
         
         start.setHours(0,0,0,0);
         diff -= now - start;
@@ -108,13 +119,46 @@
         if(diff == 0)
             return "Scade oggi";
         else if(diff > 0)
-            return `Da ${diff} Giorni`
+            return `Da ${diff} ` + nomeGiorni
         else
-            return `Tra ${diff * -1} Giorni`
+            return `Tra ${diff * -1} ` + nomeGiorni
     }
 
     [...$(".scadDate")].forEach((e) => {
         outGiorni(e.innerText).then((x) => e.innerText = x);
+    })
+
+    $(".mangiatoTBtn").click( e => {
+        id = e.target.getAttribute("data-idprodotto");
+        idVero = e.target.getAttribute("data-id");
+        
+        $.post("/prodotto/"+ id +"/mangiato/tt", {
+            idVeroMangiato: idVero
+        }, (data, status, xht) => {
+            console.log("asdasj")
+            if(data.result === true || status !== 200){
+                $(e.target).parent().parent().hide(300)
+            }else{
+                $(".errorNotify").animate({
+                        top: 55
+                    })
+                setTimeout(function() {
+                    $(".errorNotify").animate({
+                        top: -55
+                    })
+                }, 3000);
+            }
+        })
+        .fail(e => {
+            $(".errorNotify").animate({
+                    top: 55
+                })
+            setTimeout(function() {
+                $(".errorNotify").animate({
+                    top: -55
+                })
+            }, 3000);
+        })
     })
 
     $(".mangiatoBtn").click( e => {
@@ -125,9 +169,12 @@
             idVeroMangiato: idVero
         }, (data, status, xht) => {
             console.log("asdasj")
-            if(data.result === true || stats !== 200)
-                $(e.target).parent().parent().hide(200)
-            else{
+            if(data.result === true || status !== 200){
+                if(data.nQuantita == 0)
+                    $(e.target).parent().parent().hide(300)
+                else
+                    $(e.target).parent().parent().children(".quantTd").html(data.nQuantita)
+            }else{
                 $(".errorNotify").animate({
                         top: 55
                     })

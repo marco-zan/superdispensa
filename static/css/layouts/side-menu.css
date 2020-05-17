@@ -15,11 +15,11 @@ Add transition to containers so they can push in and out.
 #layout,
 #menu,
 .menu-link {
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    -ms-transition: all 0.2s ease-out;
-    -o-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
 }
 
 
@@ -34,12 +34,12 @@ This is the parent `<div>` that contains the menu and the content area.
 }
 
 #layout.active #menu {
-    left: 150px;
-    width: 150px;
+    left: 200px;
+    width: 200px;
 }
 
 #layout.active .menu-link {
-    left: 150px;
+    left: 200px;
 }
 
 
@@ -49,7 +49,7 @@ The content `<div>` is where all your content goes.
 
 .content {
     margin: 0 auto;
-    padding: 0 2em;
+    padding: 0 1em;
     max-width: 800px;
     margin-bottom: 50px;
     line-height: 1.6em;
@@ -89,9 +89,9 @@ appears on the left side of the page.
 */
 
 #menu {
-    margin-left: -150px;
+    margin-left: -200px;
     /* "#menu" width */
-    width: 150px;
+    width: 200px;
     position: fixed;
     top: 0;
     left: 0;
@@ -112,6 +112,7 @@ appears on the left side of the page.
     color: #999;
     border: none;
     padding: 0.6em 0 0.6em 0.6em;
+    font-size: 1.3em;
 }
 
 

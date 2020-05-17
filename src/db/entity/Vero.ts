@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Connection } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Connection, Not, MoreThan } from "typeorm";
 import Prodotto from "./Prodotto";
+import { dateToString, remDays } from "../../utils/date";
 
 @Entity("vero")
 export class Vero extends BaseEntity{
@@ -13,8 +14,8 @@ export class Vero extends BaseEntity{
     @Column("int")
     quantita!: number;
 
-    @Column("smallint", { default: 0 })// 0: da mangiare, 1: mangiato
-    stato!: number | undefined;
+    // @Column("smallint", { default: 0 })// 0: da mangiare, 1: mangiato
+    // stato!: number | undefined;
 
     @ManyToOne(type => Prodotto, prodotto => prodotto.id)
     prodotto !: Prodotto;
@@ -28,7 +29,10 @@ export class Vero extends BaseEntity{
         return await conn.getRepository(Vero)
             .find({
                 relations: ['prodotto'],
-                where: { stato: 0 },
+                where: {
+                    quantita: Not(0),
+                    scadenza: MoreThan(dateToString(remDays(new Date(), 31)))
+                },
                 order: { scadenza: "ASC" }
             })
     }
@@ -38,9 +42,21 @@ export class Vero extends BaseEntity{
             .save(this)
     }
 
-    public async updateStato(conn: Connection, id: number, stato: number): Promise<any> {
+    public async updateQuantity(conn: Connection, id: number, quanto: number): Promise<any> {
+        let vero: Vero | undefined = await conn.getRepository(Vero).findOne(id);
+        if(vero){
+            vero.quantita -= quanto;
+            await conn.getRepository(Vero)
+                //.update({ id: id }, { quantita:  })
+                .save(vero);
+            return vero.quantita;
+        }else
+            throw new Error("Impossibile trovare il prodotto vero")
+    }
+    
+    public async updateQuantityToZero(conn: Connection, id: number): Promise<any> {
         return await conn.getRepository(Vero)
-            .update({ id: id }, { stato: stato })
+            .update({ id: id }, { quantita: 0 })
     }
 }
 
