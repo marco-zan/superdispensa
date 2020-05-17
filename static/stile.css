@@ -117,3 +117,18 @@ ul#trovati {
         transition: 0.25s;
     }
 }
+
+button.pure-button {
+    padding: .2em .5em;
+    transition: all 0.25s;
+}
+
+button.pure-button.mangiatoTBtn.confirm {
+    background-color: #FF9800;
+    transition: all 0.25s;
+}
+
+td.tdMangiato {
+    white-space: nowrap;
+}
+

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <%- include('head'); %>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 <body>
 
@@ -38,9 +40,10 @@
                                 <td><%= scaduti[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scaduti[p].scadenza %></td>
                                 <td class='quantTd'><%= scaduti[p].quantita %></td>
-                                <td>
+                                <td class='tdMangiato'>
                                     <button class="pure-button mangiatoBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >U</button>
                                     <button class="pure-button mangiatoTBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >T</button>
+                                    <button class="pure-button aggBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >A</button>
                                 </td>
                             </tr>
                         <% } %>
@@ -63,9 +66,10 @@
                                 <td><%= inScadenza[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= inScadenza[p].scadenza %></td>
                                 <td class='quantTd'><%= inScadenza[p].quantita %></td>
-                                <td>
+                                <td class='tdMangiato'>
                                     <button class="pure-button mangiatoBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >U</button>
                                     <button class="pure-button mangiatoTBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >T</button>
+                                    <button class="pure-button aggBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >A</button>
                                 </td>
                             </tr>
                         <% } %>
@@ -88,9 +92,10 @@
                                 <td><%= scadenze[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scadenze[p].scadenza %></td>
                                 <td class='quantTd'><%= scadenze[p].quantita %></td>
-                                <td>
+                                <td class='tdMangiato'>
                                     <button class="pure-button mangiatoBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >U</button>
                                     <button class="pure-button mangiatoTBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >T</button>
+                                    <button class="pure-button aggBtn" data-id="<%= scadenze[p].id %>" data-idprodotto="<%= scadenze[p].prodotto.id %>" >A</button>
                                 </td>
                             </tr>
                         <% } %>
@@ -101,7 +106,7 @@
     </div>
 </div>
 <script>
-
+    
     const stringToDate = (dateString, separator, r = true) => { //r = yyyy-mm-dd, not r = dd-mm-yyyy
         let dA = dateString.split(separator)
         if(dA.length !== 3)
@@ -135,15 +140,66 @@
     })
 
     $(".mangiatoTBtn").click( e => {
+        if(!$(e.target).hasClass("confirm")){
+            $(e.target).addClass("confirm")
+            e.stopPropagation();
+            tippy(e.target, {
+                content: "Premi per confermare",
+                showOnCreate: true,
+                trigger: 'manual',
+                delay: 300
+            });
+
+        }else{
+            if(e.target._tippy)
+                e.target._tippy.destroy()
+            id = e.target.getAttribute("data-idprodotto");
+            idVero = e.target.getAttribute("data-id");
+            
+            $.post("/prodotto/"+ id +"/mangiato/tt", {
+                idVeroMangiato: idVero
+            }, (data, status, xht) => {
+                console.log("asdasj")
+                if(data.result === true || status !== 200){
+                    $(e.target).parent().parent().hide(300)
+                }else{
+                    $(".errorNotify").animate({
+                            top: 55
+                        })
+                    setTimeout(function() {
+                        $(".errorNotify").animate({
+                            top: -55
+                        })
+                    }, 3000);
+                }
+            })
+            .fail(e => {
+                $(".errorNotify").animate({
+                        top: 55
+                    })
+                setTimeout(function() {
+                    $(".errorNotify").animate({
+                        top: -55
+                    })
+                }, 3000);
+            })
+        }
+    })
+
+    
+    $(".aggBtn").click( e => {
         id = e.target.getAttribute("data-idprodotto");
         idVero = e.target.getAttribute("data-id");
         
-        $.post("/prodotto/"+ id +"/mangiato/tt", {
+        $.post("/prodotto/"+ id +"/aggiungi", {
             idVeroMangiato: idVero
         }, (data, status, xht) => {
             console.log("asdasj")
             if(data.result === true || status !== 200){
-                $(e.target).parent().parent().hide(300)
+                if(data.nQuantita == 0)
+                    $(e.target).parent().parent().hide(300)
+                else
+                    $(e.target).parent().parent().children(".quantTd").html(data.nQuantita)
             }else{
                 $(".errorNotify").animate({
                         top: 55
@@ -202,7 +258,11 @@
             }, 3000);
         })
     })
-    
+
+    $(document).click(function() {
+        $('button.confirm').removeClass("confirm")
+    });
+        
 </script>
 <script src="js/ui.js"></script>
 

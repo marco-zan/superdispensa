@@ -93,3 +93,17 @@ export const mangiato = async (req: Request, res: Response) => {
 
     res.json({ result : ( !!statoVeroCambiato && !!ultimoMangiato ), nQuantita: statoVeroCambiato })
 }
+
+export const aggiungi = async (req: Request, res: Response) => {
+    let q = req.body;
+    console.log(q.idVeroMangiato, req.params)
+    let statoVeroCambiato = await new Vero().addQuantity(
+        (await Dbservice.getInstance()).getConnection(),
+        parseInt(q.idVeroMangiato),
+        1
+    ); 
+
+    console.log(statoVeroCambiato);
+
+    res.json({ result : !!statoVeroCambiato , nQuantita: statoVeroCambiato })
+}

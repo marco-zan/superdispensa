@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Connection, Not, MoreThan } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Connection, Not, MoreThan, LessThan } from "typeorm";
 import Prodotto from "./Prodotto";
-import { dateToString, remDays } from "../../utils/date";
+import { dateToString, addDays } from "../../utils/date";
 
 @Entity("vero")
 export class Vero extends BaseEntity{
@@ -31,7 +31,7 @@ export class Vero extends BaseEntity{
                 relations: ['prodotto'],
                 where: {
                     quantita: Not(0),
-                    scadenza: MoreThan(dateToString(remDays(new Date(), 31)))
+                    scadenza: LessThan(dateToString(addDays(new Date(), 31)))
                 },
                 order: { scadenza: "ASC" }
             })
@@ -46,6 +46,18 @@ export class Vero extends BaseEntity{
         let vero: Vero | undefined = await conn.getRepository(Vero).findOne(id);
         if(vero){
             vero.quantita -= quanto;
+            await conn.getRepository(Vero)
+                //.update({ id: id }, { quantita:  })
+                .save(vero);
+            return vero.quantita;
+        }else
+            throw new Error("Impossibile trovare il prodotto vero")
+    }
+
+    public async addQuantity(conn: Connection, id: number, quanto: number): Promise<any> {
+        let vero: Vero | undefined = await conn.getRepository(Vero).findOne(id);
+        if(vero){
+            vero.quantita += quanto;
             await conn.getRepository(Vero)
                 //.update({ id: id }, { quantita:  })
                 .save(vero);
