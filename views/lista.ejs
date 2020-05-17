@@ -38,7 +38,10 @@
                                 <td><%= scaduti[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= scaduti[p].scadenza %></td>
                                 <td class='quantTd'><%= scaduti[p].quantita %></td>
-                                <td><button class="pure-button mangiatoBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >Mangiato</button></td>
+                                <td>
+                                    <button class="pure-button mangiatoBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >U</button>
+                                    <button class="pure-button mangiatoTBtn" data-id="<%= scaduti[p].id %>" data-idprodotto="<%= scaduti[p].prodotto.id %>" >T</button>
+                                </td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -60,7 +63,10 @@
                                 <td><%= inScadenza[p].prodotto.nome %></td>
                                 <td class='scadDate'><%= inScadenza[p].scadenza %></td>
                                 <td class='quantTd'><%= inScadenza[p].quantita %></td>
-                                <td><button class="pure-button mangiatoBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >Mangiato</button></td>
+                                <td>
+                                    <button class="pure-button mangiatoBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >U</button>
+                                    <button class="pure-button mangiatoTBtn" data-id="<%= inScadenza[p].id %>" data-idprodotto="<%= inScadenza[p].prodotto.id %>" >T</button>
+                                </td>
                             </tr>
                         <% } %>
                     </tbody>
