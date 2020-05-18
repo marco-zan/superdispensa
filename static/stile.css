@@ -132,3 +132,31 @@ td.tdMangiato {
     white-space: nowrap;
 }
 
+li.autoComplete_result.risTable {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+li.autoComplete_result.risTable p {
+    margin: 0;
+}
+
+tr {
+    transition: 0.3s;
+}
+
+.blink {
+    transition: 0.4s ease-in-out;
+    background: orange;
+}
+
+div.stilato {
+    padding: 4px;
+    font-size: 1.5em;
+    text-align: right;
+}
+
+div.stilato > * {
+    padding: .3em .7em
+}

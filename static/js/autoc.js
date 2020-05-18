@@ -25,7 +25,7 @@ new autoComplete({
     //     if (a.match > b.match) return 1;
     //     return 0;
     // },
-    placeHolder: "Nome prodotto", // Place Holder text                 | (Optional)
+    placeHolder: placeHolder, // Place Holder text                 | (Optional)
     selector: "#autoComplete", // Input field selector              | (Optional)
     threshold: 1, // Min. Chars length to start Engine | (Optional)
     debounce: 300, // Post duration for engine to start | (Optional)
@@ -42,8 +42,9 @@ new autoComplete({
     maxResults: 5, // Max. number of rendered results | (Optional)
     highlight: true, // Highlight matching results      | (Optional)
     resultItem: { // Rendered result item            | (Optional)
-        content: (data, source) => {
+        content: typeof newContent !== 'undefined' ? newContent : (data, source) => {
             source.innerHTML = data.match;
+            console.log(data, source)
         },
         element: "li"
     },

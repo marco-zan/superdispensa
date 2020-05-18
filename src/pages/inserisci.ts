@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { Prodotto } from "../db/entity/Prodotto";
+import { Prodotto, SumProd } from "../db/entity/Prodotto";
 import { Vero } from "../db/entity/Vero";
 import { Dbservice } from "../db/Dbservice";
 import { Connection } from "typeorm";
+import { dateToString } from "../utils/date";
 
 export const inserisciGet = async (req: Request, res: Response) => {
 
@@ -50,8 +51,20 @@ export const getByBarcode = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     let db: Connection = (await Dbservice.getInstance()).getConnection();
-    let prodotti: Prodotto[] | undefined = await new Prodotto().getAll(db);
+    let prodotti: SumProd[] | undefined = await new Prodotto().getAll(db);
+
+    prodotti.map(e => {
+        let x: any = e;
+        if(!e.um)
+            x.ultimo_mangiato = "Mai"
+        else
+            x.ultimo_mangiato = dateToString(e.um);
+
+        if(!e.quantita)
+            x.quantita = 0;
+        // console.log(dateToString(e.um), e.um)
+        return x;
+    })
 
     res.json(prodotti);
 }
-

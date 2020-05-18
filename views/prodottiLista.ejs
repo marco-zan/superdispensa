@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('head'); %>
+    <link rel="stylesheet" href="css/autoc.css">
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <%- include('menulink'); %>
+
+    <div id="menu">
+        <%- include('menu'); %>
+    </div>
+
+    <div id="main">
+        <div class="content">
+
+            <form>
+                <input id="autoComplete" tabindex="1">
+            </form>
+
+            <h2>Lista Prodotti</h2>
+            <table class="pure-table">
+                <thead>
+                    <th>Nome</th>
+                    <th>Ultimo Mangiato</th>
+                    <th>Quantita</th>
+                </thead>
+                <tbody>
+                    <% for (var p in prods) { %>
+                        <tr id='<%= prods[p].id %>prod'>
+                            <td><%= prods[p].nome %></td>
+                            <td class='mangDate'><%= prods[p].ultimo_mangiato %></td>
+                            <td><%= prods[p].quantita %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+    <script>
+        const stringToDate = (dateString, separator, r = true) => { //r = yyyy-mm-dd, not r = dd-mm-yyyy
+            let dA = dateString.split(separator)
+            if(dA.length !== 3)
+                throw new Error("Impossibile parsare data");
+
+            return new Date(`${dA[ r?0:2 ]}-${dA[1]}-${dA[ r?2:0 ]}T00:00:00`);
+        }
+
+        const outGiorni = async (data) => {
+            let d,
+                now = new Date(),
+                start = new Date(),
+                diff;
+            try{
+                d = stringToDate(data, "-")
+            }catch(e){}
+            diff = now - d;
+            
+            start.setHours(0,0,0,0);
+            diff -= now - start;
+            diff -= diff%86400000;
+            diff = diff/86400000;
+            if(diff == 0)
+                return "Mangiato oggi";
+            else if(diff <= 1)
+                return `Mangiato ${diff} giorno fa`
+            else if(diff > 1)
+                return `Mangiato ${diff} giorni fa`
+            else return data;
+        }
+
+        [...$(".mangDate")].forEach((e) => {
+            outGiorni(e.innerText).then((x) => e.innerText = x);
+        })
+
+        var placeHolder = "Cerca prodotto"
+
+        var newContent = (data, source) => {
+            let el = `<p>${data.match}</p><span class='quant'>Q: ${data.value.quantita}</span>`
+            source.innerHTML = el;
+            source.classList.add("risTable")
+            console.log(data, source)
+        }
+
+        var onSelection = feedback => { // Action script onSelection event | (Optional)
+            console.log(feedback.selection.value);
+            let actel = $(`#${feedback.selection.value.id}prod`)
+            
+            $([document.documentElement, document.body]).animate({
+                scrollTop: actel.offset().top - 200
+            }, 1500, "swing", () => {
+                actel.addClass("blink")
+                setTimeout(e => actel.removeClass("blink"), 400)
+            });
+        }
+    </script>
+    <script src="js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+    <script src="js/autoc.js"></script>
+
+</body>
+</html>

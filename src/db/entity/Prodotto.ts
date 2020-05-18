@@ -1,5 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, ManyToOne, Connection, OneToMany, Not, IsNull } from "typeorm";
 import { isDate } from "util";
+import Vero from "./Vero";
+
+export interface SumProd {
+    idProdotto: number,
+    nomeProdotto: string,
+    ultimo_mangiato: string,
+    um: Date | null,
+    quantita: number | null
+}
 
 @Entity("prodotto")
 export class Prodotto extends BaseEntity{
@@ -34,8 +43,24 @@ export class Prodotto extends BaseEntity{
         return await conn.getRepository(Prodotto).insert(this);
     }
 
-    public async getAll(conn: Connection): Promise<Prodotto[]> {
+    public async lista(conn: Connection): Promise<Prodotto[]> {
         return await conn.getRepository(Prodotto).find({});
+    }
+
+    public async getAll(conn: Connection): Promise<SumProd[]> {
+        return (<SumProd[]> await conn.getRepository(Prodotto)
+            .createQueryBuilder("p")
+            .select("p.id", 'id')
+            .addSelect("p.nome", "nome")
+            .addSelect("p.ultimo_mangiato", "um")
+            .addSelect("sum(v.quantita)", 'quantita')
+            //.from(Prodotto, "p")
+            .leftJoin(Vero, 'v', 'v.prodottoId = p.id')
+            // .addFrom(Vero, "v")
+            .groupBy("p.id")
+            .orderBy("p.nome")
+            // .getSql()
+            .getRawMany())
     }
 
     public async getAllMangiati(conn: Connection): Promise<Prodotto[]> {
