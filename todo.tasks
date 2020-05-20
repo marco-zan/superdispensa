@@ -1,18 +1,9 @@
 
 Necessari:
- ☐ Annulla finale su inserimento
- ☐ Annulla su inserimento nel nome del prodotto
- ✔ se premi mangiato, li mangia tutti @done (20-05-17 02:22)
- ✔ conferma per mangiato @done (20-05-17 15:31)
- ✔ numero per mangiato @done (20-05-17 02:22)
- ✔ backup database @done (20-05-17 15:31)
- ✔ Bug bottoni mangiato @done (20-05-17 15:31)
 
 
 Comodi / Utili:
  ☐ inserimento multiplo stesso prodotto
- ✔ Scadenze fino ad un mese, non tutte @done (20-05-17 02:22)
- ☐ Lista prodotti con ricerca
 
 Belli:
  ☐ lista di roba per il pranzo in modo che puoi confermare e non devi star li
@@ -20,3 +11,15 @@ Belli:
 Next level:
  ☐ tipo di prodotto (cibo/roba per il bagno)
  ☐ pezzi/confezione
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Lista prodotti con ricerca @done (20-05-20 10:30) @project(Comodi / Utili)
+ ✔ Annulla su inserimento nel nome del prodotto @done (20-05-20 10:29) @project(Necessari)
+ ✔ Annulla finale su inserimento @done (20-05-20 10:29) @project(Necessari)
+ ✔ conferma per mangiato @done (20-05-17 15:31) @project(Necessari)
+ ✔ backup database @done (20-05-17 15:31) @project(Necessari)
+ ✔ Bug bottoni mangiato @done (20-05-17 15:31) @project(Necessari)
+ ✔ se premi mangiato, li mangia tutti @done (20-05-17 02:22) @project(Necessari)
+ ✔ numero per mangiato @done (20-05-17 02:22) @project(Necessari)
+ ✔ Scadenze fino ad un mese, non tutte @done (20-05-17 02:22) @project(Comodi / Utili)
