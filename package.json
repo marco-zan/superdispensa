@@ -29,7 +29,7 @@
         "mysql": "^2.18.1",
         "tls": "0.0.1",
         "tsc-watch": "^4.2.3",
-        "typeorm": "^0.2.24",
+        "typeorm": "^0.2.25",
         "typescript": "^3.8.3"
     }
 }
